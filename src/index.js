@@ -2,28 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
 import Spinner from './Spinner';
+import useLocation from './useLocation';
 
 const App = () => {
-   // initialize the 'lat' state property.
-   // 'lat' is the state property; 
-   // setLat is a function that can be used to change the state property, lat.
-   const [lat, setLat] = useState(null);
-
-   // initialize the 'errorMessage' state property.
-   // errorMessage is the state property
-   // setErrorMessage is the function that is used to change the value of errorMessage
-   const [errorMessage, setErrorMessage] = useState('');
-
-   // useEffect should be invoked exactly one time, when the component is first rendered. To elicit this behavior, an empty array is passed to useEffect as the second argument.
-   useEffect(() => {
-      window.navigator.geolocation.getCurrentPosition(
-         position  =>  setLat(position.coords.latitude),
-         err => setErrorMessage(err.message) 
-      );
-   }, []); 
+   const [lat, errorMessage] = useLocation();
 
    // replaces renderContent() function
-   let content;
+   let content; // initializes the content variable
    if(errorMessage) {
       content = <div>Error: {errorMessage}</div>;
    } else if (lat) {
